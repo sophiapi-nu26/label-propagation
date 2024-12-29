@@ -109,9 +109,9 @@ The generated heatmaps have:
 
 ## Example Plots
 
-This is an example of the `Cross-Label Distribution` property using the parameters described below.
+This is an example of the `Cross-Label Distribution` property after round 5using the parameters described below.
 
-![Cross-Label Distribution after 5 rounds](plots/cross_label_distribution_round_5.png)
+![Cross-Label Distribution after 5 rounds](plots/cross_label_dist_round_5.png)
 
 Example plots are in the `plots/` directory. These plots were generated with the following parameters:
 
