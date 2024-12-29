@@ -109,11 +109,9 @@ The generated heatmaps have:
 
 ## Example Plots
 
-This is an example of the `Cross-Label Distribution` property after round 5using the parameters described below.
-
 ![Cross-Label Distribution after 5 rounds](plots/cross_label_dist/cross_label_dist_round_5.png)
 
-Example plots are in the `plots/` directory. These plots were generated with the following parameters:
+Example plots are in the `plots/` directory. The image above is an example of the `Cross-Label Distribution` property after round 5, generated with the parameters below (the same parameters used to generate all plots in `plots/`).
 
 ```bash
 python run_lpa_experiment.py \
