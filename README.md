@@ -88,7 +88,7 @@ python run_lpa_experiment.py \
   --prop fraction_not_changed
 ```
 
-- `--num_params`: Default: 32. Defines the grid size. The script will create a `num_params` x `num_params` grid of $(p, q)$ values. Column $i$, row $j$ corresponds to SBM($n$, $p$, $q$) where $p = n^{-i/k}$, $q = n^{-j/k}, and $k$ = `num_params`.
+- `--num_params`: Default: 32. Defines the grid size. The script will create a `num_params` x `num_params` grid of $(p, q)$ values. Column $i$, row $j$ corresponds to SBM($n$, $p$, $q$) where $p = n^{-i/k}$, $q = n^{-j/k}$, and $k$ = `num_params`.
 - `--n`: Default: 1000. Number of nodes in the SBM (graph size).
 - `--rounds`: Default: 5. Number of rounds of label propagation.
 - `--trials`: Default: 4. Number of independent trials (SBM realizations) to average over for each $(p, q)$ pair.
