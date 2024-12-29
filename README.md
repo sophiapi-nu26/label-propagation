@@ -36,7 +36,7 @@ This repository runs simulations of the label propagation algorithm (LPA) on bal
 - $p$: Probability of an edge between two nodes in the same community.
 - $q$: Probability of an edge between two nodes in different communities.
 
-For the purposes of this analysis, we consider $p = n^{-\frac{i}{\text{num\_params}}}$ and \(q = n^{-\frac{j}{\text{num\_params}}}\), where \(i, j \in [0, \text{num\_params}]\).
+For the purposes of this analysis, we consider $p = n^{-\frac{i}{k}}$ and \(q = n^{-\frac{j}{\text{num\_params}}}\), where \(i, j \in [0, \text{num\_params}]\).
 
 #### LPA Algorithm Pseudocode
 
