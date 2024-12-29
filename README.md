@@ -36,7 +36,7 @@ This repository runs simulations of the label propagation algorithm (LPA) on bal
 - $p$: Probability of an edge between two nodes in the same community.
 - $q$: Probability of an edge between two nodes in different communities.
 
-For the purposes of this analysis, we consider $p = n^{-\frac{i}{k}}$ and \(q = n^{-\frac{j}{\text{num\_params}}}\), where \(i, j \in [0, \text{num\_params}]\).
+For the purposes of this analysis, we consider $p = n^{-i/k}$ and $q = n^{-j/k}, where $i, j \in [0, k]$ and $k$ = `num_params`.
 
 #### LPA Algorithm Pseudocode
 
@@ -88,7 +88,7 @@ python run_lpa_experiment.py \
   --prop fraction_not_changed
 ```
 
-- `--num_params`: Default: 32. Defines the grid size. The script will create a `num_params` x `num_params` grid of $(p, q)$ values as $p = n^{-i/ \text{`num_params`}}$ and $q = n^{-j/ \text{`num_params`}}$.
+- `--num_params`: Default: 32. Defines the grid size. The script will create a `num_params` x `num_params` grid of $(p, q)$ values. Column $i$, row $j$ corresponds to SBM($n$, $p$, $q$) where $p = n^{-i/k}$, $q = n^{-j/k}, and $k$ = `num_params`.
 - `--n`: Default: 1000. Number of nodes in the SBM (graph size).
 - `--rounds`: Default: 5. Number of rounds of label propagation.
 - `--trials`: Default: 4. Number of independent trials (SBM realizations) to average over for each $(p, q)$ pair.
