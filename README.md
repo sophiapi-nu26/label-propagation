@@ -20,6 +20,7 @@ The code was written by [Sophia Pi](https://www.linkedin.com/in/sophia-yixinyun-
 
 - **`requirements.txt`**  
   Standard pip requirements file listing Python package dependencies.
+
 ---
 
 ## Background
@@ -68,7 +69,7 @@ For the purposes of this analysis, we consider $p = n^{-i/k}$ and $q = n^{-j/k}$
    python run_lpa_experiment.py --help
    ```
 
---
+---
 
 ## Usage
 
@@ -98,6 +99,8 @@ The `Cross-Label Distribution` property is always tracked. This generates a set 
 
 Running the script will generate a set of plots in the current directory using the naming convention `{property}_round_{round}.png`.
 
+---
+
 ## Interpreting the Plots
 
 The plots are of various properties of the label propagation algorithm applied to a balanced 2-community SBM($n$, $p$, $q$) over the $(p, q)$ parameter space. 
@@ -106,6 +109,8 @@ The generated heatmaps have:
 - x-axis: $-\log_n(p)$
 - y-axis: $-\log_n(q)$
 - color-scale: Fraction of nodes with the given property, averaged over `trials` trials.
+
+---
 
 ## Example Plots
 
