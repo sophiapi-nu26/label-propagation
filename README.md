@@ -53,7 +53,7 @@ For the purposes of this analysis, we consider $p = n^{-i/k}$ and $q = n^{-j/k}$
 
 1. **Clone** this repository:
    ```bash
-   git clone https://github.com/YourUsername/label-propagation-sbm.git
+   git clone https://github.com/sophiapi-nu26/label-propagation.git
    cd label-propagation-sbm
    ```
 
