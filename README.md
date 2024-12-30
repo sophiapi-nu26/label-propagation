@@ -4,7 +4,7 @@ This repository contains code for generating and analyzing parameter space diagr
 
 1. **Efficient, parallelizable** data generation scripts using Python.
 2. **Heatmap visualizations** of the fraction of nodes converging to correct labels under various $(p, q)$ regimes.
-3. **Example plots that** demonstrate phase transitions and other interesting phenomena in the label propagation process.
+3. **Example plots** that demonstrate phase transitions and other interesting phenomena in the label propagation process.
 
 Written by [Sophia Pi](https://www.linkedin.com/in/sophia-yixinyun-pi) under the supervision and mentorship of Prof. [Miklos Racz](https://racz.statistics.northwestern.edu/) and [Shuwen Chai](https://shuwenchai.github.io/) for an undergraduate research project at Northwestern University.
 
