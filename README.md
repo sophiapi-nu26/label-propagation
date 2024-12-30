@@ -3,10 +3,10 @@
 This repository contains code for generating and analyzing parameter space diagrams of the label propagation algorithm on a 2-community SBM (Stochastic Block Model). It includes:
 
 1. **Efficient, parallelizable** data generation scripts using Python.
-2. **Heatmap visualizations** of the fraction of nodes converging to correct labels under various \((p, q)\) regimes.
-3. Example plots that demonstrate phase transitions and other interesting phenomena in the label propagation process.
+2. **Heatmap visualizations** of the fraction of nodes converging to correct labels under various $(p, q)$ regimes.
+3. **Example plots that** demonstrate phase transitions and other interesting phenomena in the label propagation process.
 
-The code was written by [Sophia Pi](https://www.linkedin.com/in/sophia-yixinyun-pi) under the supervision of Prof. [Miklos Racz](https://racz.statistics.northwestern.edu/) and [Shuwen Chai](https://shuwenchai.github.io/) for an undergraduate research project at Northwestern University.
+Written by [Sophia Pi](https://www.linkedin.com/in/sophia-yixinyun-pi) under the supervision and mentorship of Prof. [Miklos Racz](https://racz.statistics.northwestern.edu/) and [Shuwen Chai](https://shuwenchai.github.io/) for an undergraduate research project at Northwestern University.
 
 ---
 
