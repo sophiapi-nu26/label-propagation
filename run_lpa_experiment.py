@@ -303,8 +303,37 @@ def run_experiment_parallel(num_params=64,  # for 64^2 grid
 
     print("\nAll parallel jobs completed. Now plotting...")
 
+    # Define how we want to label each property on the plots:
+    prop_titles = {
+        'conv_smallest_in_comm': "Proportion of nodes w/ locally smallest label",
+        'conv_smallest_global':  "Proportion of nodes w/ globally smallest label",
+        'fraction_not_changed':  "Proportion of nodes that did not change their label",
+    }
+
     # 6) Plot everything
     exponent_labels = [f"{(k+1)}/{num_params}" for k in range(num_params)]
+    
+    # Create a helper function that:
+    #  1) determines a step size of max(1, num_params // 8),
+    #  2) starts from 1 so that, e.g. for num_params=16, we display ticks at 2/16, 4/16, ...
+    #  3) places ticks in the middle of each cell by adding 0.5,
+    #  4) uses exponent_labels[i] as the tick label.
+    step = max(1, num_params // 8)
+    def set_custom_ticks(ax):
+        # Skip index=0 so the first label is 2/16 for num_params=16, etc.
+        indices = list(range(step, num_params, step))
+        if indices[-1] != num_params:
+            indices.append(num_params)
+
+        # Place ticks at the midpoint of each cell
+        xticks = [i - 0.5 for i in indices]
+        yticks = [i - 0.5 for i in indices]
+
+        ax.set_xticks(xticks)
+        ax.set_xticklabels([exponent_labels[i-1] for i in indices], rotation=45, ha="right")
+
+        ax.set_yticks(yticks)
+        ax.set_yticklabels([exponent_labels[i-1] for i in indices], rotation=45, ha="right")
     
     # 6a) Plot the 2-subplot figures for the core properties
     for prop in property_names:
@@ -317,23 +346,29 @@ def run_experiment_parallel(num_params=64,  # for 64^2 grid
                 data_2d = results[prop][r, c_idx, :, :].T  
                 sns.heatmap(
                     data_2d, ax=ax, cmap="viridis", vmin=0.0, vmax=1.0,
-                    xticklabels=exponent_labels, yticklabels=exponent_labels
+                    xticklabels=False, 
+                    yticklabels=False
                 )
-                ax.set_title(f"Community {c_idx}")
-                ax.set_xlabel("p exponent")
-                ax.set_ylabel("q exponent")
-                ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha="right")
-            plt.suptitle(f"{prop} - Round {r+1}", fontsize=16)
+                ax.set_title(f"Community {c_idx+1}")
+                ax.set_xlabel("a, where p=n^(-a)")
+                ax.set_ylabel("b, where q=n^(-b)")
+
+                # Apply our custom ticks
+                set_custom_ticks(ax)
+
+            # Use a custom title if it's in prop_titles, else fallback
+            title_text = prop_titles.get(prop, prop)
+            plt.suptitle(f"{title_text} (Round {r+1})", fontsize=16)
             plt.tight_layout()
             plt.savefig(f"{prop}_round_{r+1}.png")
             plt.close()
 
     # 6b) Plot cross-label distribution (4 subplots)
     titles = [
-        "Comm0, Label=1",
-        "Comm0, Label=k (smallest in Comm1)",
-        "Comm1, Label=1",
-        "Comm1, Label=k (smallest in Comm1)",
+        "Community 1, Label=1",
+        "Community 1, Label=j1 (smallest in Community 2)",
+        "Community 2, Label=1",
+        "Community 2, Label=j1 (smallest in Community 2)",
     ]
     for r in range(rounds):
         fig, axes = plt.subplots(2, 2, figsize=(12, 10))
@@ -341,13 +376,18 @@ def run_experiment_parallel(num_params=64,  # for 64^2 grid
             data_2d = results['cross_label_dist'][r, cross_idx, :, :].T
             sns.heatmap(
                 data_2d, ax=ax, cmap="viridis", vmin=0.0, vmax=1.0,
-                xticklabels=exponent_labels, yticklabels=exponent_labels
+                xticklabels=False,
+                yticklabels=False
             )
             ax.set_title(titles[cross_idx])
-            ax.set_xlabel("p exponent")
-            ax.set_ylabel("q exponent")
-            ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha="right")
-        plt.suptitle(f"Cross-Label Distribution - Round {r+1}", fontsize=16)
+            ax.set_xlabel("a, where p=n^(-a)")
+            ax.set_ylabel("b, where q=n^(-b)")
+
+            # Apply our custom ticks
+            set_custom_ticks(ax)
+
+        # For cross_label_dist, always use the specified plot title:
+        plt.suptitle(f"Proportion of nodes w/ given label (Round {r+1})", fontsize=16)
         plt.tight_layout()
         plt.savefig(f"cross_label_dist_round_{r+1}.png")
         plt.close()
