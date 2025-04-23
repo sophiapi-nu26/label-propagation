@@ -52,9 +52,6 @@ static double ***cross_label_dist_01       = nullptr;
 static double ***cross_label_dist_10       = nullptr;
 static double ***cross_label_dist_11       = nullptr;
 
-// We'll store for each node: which community it belongs to (0 or 1).
-static std::vector<int> community;
-
 //------------------------------------------------------------------------------------
 // A helper function to allocate a 3D array [numiterations][GRID_SIZE+1][GRID_SIZE+1].
 static double*** allocate3D(int numiterations) {
@@ -85,10 +82,10 @@ static void free3D(double ***arr, int numiterations) {
 //------------------------------------------------------------------------------------
 // Generate a 2-community SBM with random 0/1 membership.
 // Probability p for edges within a community, q for edges across communities.
-static std::vector<std::vector<int>> generateSBMRandomSplit(
+static std::pair<std::vector<std::vector<int>>, std::vector<int>> generateSBMRandomSplit(
     int n, double p, double q, std::mt19937 &gen)
 {
-    community.resize(n);
+    std::vector<int> community(n);  // Local vector
 
     // 0.5 chance for each community
     std::bernoulli_distribution communityDist(0.5);
@@ -131,7 +128,7 @@ static std::vector<std::vector<int>> generateSBMRandomSplit(
     // }
     // communityFile.close();
     // adjFile.close();
-    return adj;
+    return {adj, community};  // Return both
 }
 
 //------------------------------------------------------------------------------------
@@ -152,9 +149,9 @@ static void labelPropagationIteration(
 {
     int n = (int)adj.size();
 
-#ifdef _OPENMP
-#pragma omp parallel for schedule(dynamic)
-#endif
+    #ifdef _OPENMP
+    #pragma omp parallel for schedule(dynamic)
+    #endif
     for (int u = 0; u < n; u++) {
         std::unordered_map<int,int> freq;
         freq[oldLabels[u]]++;
@@ -195,8 +192,8 @@ static void runOneSimulation(
     double local_cld00[], double local_cld01[],
     double local_cld10[], double local_cld11[]
 ) {
-    // 1) Generate adjacency (with random communities 0/1)
-    auto adj = generateSBMRandomSplit(n, p, q, gen);
+    // Get both adj and community
+    auto [adj, community] = generateSBMRandomSplit(n, p, q, gen);
 
     // 2) Random unique labels in [1..n]
     auto labels = initializeUniqueRandomLabels(n, gen);
@@ -474,9 +471,9 @@ int main(int argc, char** argv) {
     // Similarly for j in [0..GRID_SIZE].
     // That yields 65 x 65 = 4225 possible pairs.
 
-#ifdef _OPENMP
-#pragma omp parallel for collapse(2) schedule(dynamic)
-#endif
+    #ifdef _OPENMP
+    #pragma omp parallel for collapse(2) schedule(dynamic)
+    #endif
     for (int i = 0; i <= GRID_SIZE; i++) {
         for (int j = 0; j <= GRID_SIZE; j++) {
             double alpha = minalpha + (maxalpha - minalpha)*double(i)/double(GRID_SIZE);

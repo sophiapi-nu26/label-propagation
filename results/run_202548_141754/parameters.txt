@@ -1,7 +1,0 @@
-N = 5000
-minalpha = -1
-maxalpha = 0
-minbeta = -1
-maxbeta = 0
-numiterations = 5
-numtrials = 1
