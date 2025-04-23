@@ -158,17 +158,50 @@ In addition to the Python implementation, this repository includes a C++ version
 3. **Running the Program**:
    ```bash
    # From command prompt or PowerShell
-   label_prop_sbm.exe --n 5000 --iterations 8 --trials 4 --threads 10
+   label_prop_sbm.exe [N] [minalpha] [maxalpha] [minbeta] [maxbeta] [iterations] [trials] [threads]
    ```
 
-   Command line arguments:
-   - `--n`: Number of nodes (default: 10000)
-   - `--iterations`: Number of label propagation rounds
-   - `--trials`: Number of independent trials to average over
-   - `--threads`: Number of OpenMP threads to use (default: system-dependent)
+   Command line arguments (all optional):
+   - `N`: Number of nodes (default: 10000)
+   - `minalpha`: Minimum exponent for p = N^alpha (default: -1.0)
+   - `maxalpha`: Maximum exponent for p = N^alpha (default: 0.0)
+   - `minbeta`: Minimum exponent for q = N^beta (default: -1.0)
+   - `maxbeta`: Maximum exponent for q = N^beta (default: 0.0)
+   - `iterations`: Number of label propagation rounds (default: 10)
+   - `trials`: Number of independent trials to average over (default: 4)
+   - `threads`: Number of OpenMP threads to use (default: system-dependent)
 
-The C++ implementation produces the same types of heatmaps as the Python version but with significantly better performance for large networks. Output files will be generated in the same format with the `.csv` extension, which can then be visualized using the plotting scripts.
+   Example:
+   ```bash
+   # Run with 50000 nodes, alpha in [-0.5,0], beta in [-0.5,0], 8 iterations, 2 trials
+   label_prop_sbm.exe 50000 -0.5 0 -0.5 0 8 2
+   ```
+
+The program will create a timestamped results folder containing:
+- Parameter log file
+- CSV files for each tracked property per iteration
+- Heatmaps showing the convergence properties across the (p,q) parameter space
 
 Note: The C++ version uses OpenMP for parallelization. Make sure your chosen compiler supports OpenMP for optimal performance.
+
+## Plotting Results
+
+After running either the Python or C++ version, you can generate heatmap visualizations from the CSV files using the provided plotting script:
+
+```bash
+# For results from a specific run:
+python generate_heatmaps.py --run_folder results/run_YYYYMMDD_HHMMSS
+
+# Example:
+python generate_heatmaps.py --run_folder results/run_20240315_143022
+```
+
+This will generate:
+- Two side-by-side heatmaps for `conv_smallest_in_comm` (one per community)
+- Two side-by-side heatmaps for `conv_smallest_global` (one per community)
+- Two side-by-side heatmaps for `fraction_not_changed` (one per community)
+- A 2x2 grid of heatmaps for the cross-label distribution
+
+The heatmaps will be saved in their respective subfolders within the run directory, using the naming convention `{property}_round_{round}.png`.
 
 
