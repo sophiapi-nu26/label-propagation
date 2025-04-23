@@ -39,11 +39,11 @@ For the purposes of this analysis, we consider $p = n^{-i/k}$ and $q = n^{-j/k}$
 
 1. Initialize labels:  
    - For the first round, each node adopts the smallest label among its neighbors, including itself.  
-     (Because each node initially has a unique label, any node originally labeled “1” will remain labeled “1”.)
+     (Because each node initially has a unique label, any node originally labeled "1" will remain labeled "1".)
 
 2. Iterative update:
    - For each subsequent round, simultaneously update the labels of all nodes:
-     1. For every node u, look at the labels of its neighbors (including u’s own label from the previous round).  
+     1. For every node u, look at the labels of its neighbors (including u's own label from the previous round).  
      2. Determine the most frequent label among those neighbors.  
      3. If there is a tie for the most frequent label, choose the smaller label.  
      4. Assign that label to u for round t.
@@ -129,5 +129,46 @@ python run_lpa_experiment.py \
   --prop conv_smallest_global \
   --prop fraction_not_changed
 ```
+
+## C++ Implementation
+
+In addition to the Python implementation, this repository includes a C++ version (`label_prop_sbm.cpp`) that offers improved performance for large-scale simulations.
+
+### C++ Setup & Requirements
+
+1. **Compiler Setup** (choose one):
+   - **Option 1: MinGW-w64** (Recommended for Windows):
+     1. Download and install MinGW-w64 from [https://winlibs.com/](https://winlibs.com/)
+     2. Add the `bin` directory to your system PATH
+     3. Build using:
+        ```bash
+        g++ -O3 -fopenmp -std=c++17 label_prop_sbm.cpp -o label_prop_sbm.exe
+        ```
+
+   - **Option 2: Visual Studio**:
+     1. Install Visual Studio Community Edition with "Desktop development with C++"
+     2. Open Developer Command Prompt
+     3. Navigate to the project directory
+     4. Build using the Visual Studio compiler
+
+2. **VSCode Setup** (Optional but recommended):
+   - Install the "C/C++ Extension Pack" from Microsoft
+   - Configure IntelliSense to use your installed compiler
+
+3. **Running the Program**:
+   ```bash
+   # From command prompt or PowerShell
+   label_prop_sbm.exe --n 5000 --iterations 8 --trials 4 --threads 10
+   ```
+
+   Command line arguments:
+   - `--n`: Number of nodes (default: 10000)
+   - `--iterations`: Number of label propagation rounds
+   - `--trials`: Number of independent trials to average over
+   - `--threads`: Number of OpenMP threads to use (default: system-dependent)
+
+The C++ implementation produces the same types of heatmaps as the Python version but with significantly better performance for large networks. Output files will be generated in the same format with the `.csv` extension, which can then be visualized using the plotting scripts.
+
+Note: The C++ version uses OpenMP for parallelization. Make sure your chosen compiler supports OpenMP for optimal performance.
 
 
