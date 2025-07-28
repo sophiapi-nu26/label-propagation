@@ -1,0 +1,7 @@
+N = 1000
+minalpha = -1
+maxalpha = 0
+minbeta = -1
+maxbeta = 0
+numiterations = 10
+numtrials = 4

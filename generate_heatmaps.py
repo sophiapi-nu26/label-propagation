@@ -225,10 +225,10 @@ def generate_heatmaps_for_run(run_folder):
         t10 = os.path.join(cld_path, f"temp_10_{round_idx}.png")
         t11 = os.path.join(cld_path, f"temp_11_{round_idx}.png")
 
-        plot_single_heatmap(arr_00, t00, title=f"00 (r={round_idx})")
-        plot_single_heatmap(arr_01, t01, title=f"01 (r={round_idx})")
-        plot_single_heatmap(arr_10, t10, title=f"10 (r={round_idx})")
-        plot_single_heatmap(arr_11, t11, title=f"11 (r={round_idx})")
+        plot_single_heatmap(arr_00, t00, title=f"Comm 0 nodes with initial min label from Comm 0 (round {round_idx})")
+        plot_single_heatmap(arr_01, t01, title=f"Comm 0 nodes with initial min label from Comm 1 (round {round_idx})")
+        plot_single_heatmap(arr_10, t10, title=f"Comm 1 nodes with initial min label from Comm 0 (round {round_idx})")
+        plot_single_heatmap(arr_11, t11, title=f"Comm 1 nodes with initial min label from Comm 1 (round {round_idx})")
 
         final_out = os.path.join(cld_path, f"cross_label_dist_round_{round_idx}.png")
         stitch_images([t00, t01, t10, t11], final_out, mode='2x2')

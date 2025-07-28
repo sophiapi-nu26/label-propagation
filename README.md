@@ -2,7 +2,7 @@
 
 This repository contains code for generating and analyzing parameter space diagrams of the label propagation algorithm on a 2-community SBM (Stochastic Block Model). It includes:
 
-1. **Efficient, parallelizable** data generation scripts using Python.
+1. **Efficient, parallelizable** data generation scripts (C++, but a serial version is also provided in Python).
 2. **Heatmap visualizations** of the fraction of nodes converging to correct labels under various $(p, q)$ regimes.
 3. **Example plots** that demonstrate phase transitions and other interesting phenomena in the label propagation process.
 
@@ -158,7 +158,7 @@ In addition to the Python implementation, this repository includes a C++ version
 3. **Running the Program**:
    ```bash
    # From command prompt or PowerShell
-   label_prop_sbm.exe [N] [minalpha] [maxalpha] [minbeta] [maxbeta] [iterations] [trials] [threads]
+   label_prop_sbm.exe [N] [minalpha] [maxalpha] [minbeta] [maxbeta] [iterations] [trials] 
    ```
 
    Command line arguments (all optional):
@@ -169,7 +169,6 @@ In addition to the Python implementation, this repository includes a C++ version
    - `maxbeta`: Maximum exponent for q = N^beta (default: 0.0)
    - `iterations`: Number of label propagation rounds (default: 10)
    - `trials`: Number of independent trials to average over (default: 4)
-   - `threads`: Number of OpenMP threads to use (default: system-dependent)
 
    Example:
    ```bash
@@ -196,7 +195,7 @@ python generate_heatmaps.py --run_folder results/run_YYYYMMDD_HHMMSS
 python generate_heatmaps.py --run_folder results/run_20240315_143022
 ```
 
-This will generate:
+This will generate (for each property and for each round):
 - Two side-by-side heatmaps for `conv_smallest_in_comm` (one per community)
 - Two side-by-side heatmaps for `conv_smallest_global` (one per community)
 - Two side-by-side heatmaps for `fraction_not_changed` (one per community)

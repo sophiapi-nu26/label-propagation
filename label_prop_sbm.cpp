@@ -10,6 +10,7 @@
 #include <fstream>      // for file I/O
 #include <sstream>      // for building filenames
 #include <cmath>        // for pow
+#include <iomanip>      // for std::setprecision
 
 #ifdef _OPENMP
 #include <omp.h>
@@ -498,6 +499,8 @@ int main(int argc, char** argv) {
 
             // numtrials simulations
             for (int t = 0; t < numtrials; t++) {
+                auto start_time = std::chrono::high_resolution_clock::now();
+                
                 unsigned localSeed = masterSeed + (i*10000) + (j*100) + t;
                 std::mt19937 localGen(localSeed);
 
@@ -520,6 +523,21 @@ int main(int argc, char** argv) {
                                  local_fnc0.data(), local_fnc1.data(),
                                  local_cld00.data(), local_cld01.data(),
                                  local_cld10.data(), local_cld11.data());
+
+                auto end_time = std::chrono::high_resolution_clock::now();
+                auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
+
+                // Print progress (use mutex to avoid garbled output in OpenMP)
+                #ifdef _OPENMP
+                #pragma omp critical
+                #endif
+                {
+                    std::cout << "Completed trial " << (t + 1) << "/" << numtrials 
+                              << " for alpha=" << std::fixed << std::setprecision(3) << alpha 
+                              << ", beta=" << beta
+                              << " (grid point [" << i << "," << j << "])"
+                              << " in " << duration.count() << "ms\n";
+                }
 
                 // Accumulate
                 for (int r = 0; r < numiterations; r++) {
